@@ -450,6 +450,7 @@ function revealArchive() {
 
 function startEntryHold(event) {
   event.preventDefault();
+  audio.unlock();
   const button = document.querySelector("#holdEntry");
   button.setPointerCapture?.(event.pointerId);
   gsap.killTweensOf(button);
@@ -464,6 +465,7 @@ function cancelEntryHold() {
 }
 
 function enterDay() {
+  audio.cue(330, 0.35);
   transitionTo("day", () => {
     resetPlayer("day"); updateWaypoint("day"); updateStatus(); startSnow(scenes.day, 76);
     activeTimeline = gsap.timeline({ defaults: { duration: duration(0.55), ease: "power2.out" } })
