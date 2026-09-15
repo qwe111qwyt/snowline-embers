@@ -1,0 +1,12 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.vite-temp
+*.log
+.DS_Store
+
+# 原始大体积素材与开发参考资料（public/assets 已含构建好的 WebP）
+按规范命名素材/
+第一批素材交付包/
+Skill/
