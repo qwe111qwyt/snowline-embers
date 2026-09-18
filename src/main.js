@@ -47,9 +47,9 @@ app.innerHTML = `
         </div>
         <p class="archive-line">这不是一张胜利合影。照片背后，只留下一个被雪水洇开的地名。</p>
       </div>
-      <div class="task-hint" id="scratchHint">用手指擦去玻璃上的霜</div>
+      <div class="task-hint" id="scratchHint">擦去照片上的霜</div>
       <button class="hold-entry" id="holdEntry" type="button" hidden>
-        <span class="hold-ring"></span><span>按住进入记忆</span>
+        <span class="hold-ring"></span><span class="hold-label">按住照片，进入记忆</span>
       </button>
     </section>
 
@@ -69,9 +69,10 @@ app.innerHTML = `
         <img src="${assets.medbox}" alt="" /><i data-lucide="file-text"></i>
       </button>
       <div class="footprints-layer" aria-hidden="true"></div>
+      <span class="movement-guide" aria-hidden="true"></span>
       <span class="waypoint" aria-hidden="true"></span>
       <div class="player" data-testid="day-player"><img src="${assets.heroWalk}" alt="年轻交通员" /></div>
-      <div class="task-hint">按住雪地拖动 · 松手伏低</div>
+      <div class="task-hint" id="dayHint">拖动人物到发光掩体</div>
       <aside class="paper-sheet route-sheet" id="routeSheet" hidden aria-label="路线选择">
         <p class="sheet-label">路线抉择 · 不设正确答案</p>
         <h2>风把两条路都盖住了</h2>
@@ -102,7 +103,10 @@ app.innerHTML = `
         <button class="camp-object object-food" data-object="food" aria-label="查看干粮" type="button"><img src="${assets.food}" alt="" /><span>干粮</span></button>
         <button class="camp-object object-coat" data-object="coat" aria-label="查看棉衣" type="button"><img src="${assets.coat}" alt="" /><span>棉衣</span></button>
       </div>
-      <div class="object-note" id="objectNote"><span>0 / 5</span><p>查看密营里的五件物品</p></div>
+      <div class="object-note" id="objectNote">
+        <div class="object-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="object-count">0 / 5</span><p>查看余火旁依次亮起的物品</p>
+      </div>
       <aside class="paper-sheet decision-sheet" id="campDecision" hidden aria-live="polite"></aside>
       <aside class="map-study" id="mapStudy" hidden aria-label="记住封锁路线">
         <p class="sheet-label">路线只展开五秒</p>
@@ -138,8 +142,8 @@ app.innerHTML = `
       <div class="footprints-layer" aria-hidden="true"></div>
       <span class="waypoint" aria-hidden="true"></span>
       <div class="player" data-testid="night-player"><img src="${assets.heroCrouch}" alt="伏低前行的交通员" /></div>
-      <button class="breath-control" id="breathButton" type="button"><span>屏息</span><small>按住</small></button>
-      <div class="task-hint">循掩体前进 · 灯光逼近时屏息</div>
+      <button class="breath-control" id="breathButton" type="button"><span>屏息</span><small>按住</small><b class="breath-meter"></b></button>
+      <div class="task-hint" id="nightHint">先观察灯光往返</div>
       <div class="danger-vignette"></div><div class="frost"></div><div class="shade"></div>
     </section>
 
@@ -153,11 +157,12 @@ app.innerHTML = `
       <img class="fire-captain" src="${assets.captain}" alt="将档案交出的林队长" />
       <img class="fire-archive" src="${assets.archive}" alt="桦皮联络档案" />
       <button class="lamp-guard" id="lampGuard" type="button" aria-label="按住护住油灯火苗">
+        <span class="lamp-glow" aria-hidden="true"></span>
         <span class="flame"><span></span></span>
         <img src="${assets.lamp}" alt="油灯" />
         <span class="guard-meter"><b></b></span>
       </button>
-      <div class="task-hint" id="fireHint">用手挡住火苗 · 持续六秒</div>
+      <div class="task-hint" id="fireHint">按住火苗，替它挡风</div>
       <aside class="paper-sheet archive-choice" id="archiveChoice" hidden>
         <p class="sheet-label">档案去向</p>
         <h2>光照出了最后一段路线</h2>
@@ -171,7 +176,7 @@ app.innerHTML = `
     </section>
 
     <section class="scene echo-scene" id="echoScene" hidden aria-label="终章 山河回响">
-      <img class="scene-bg echo-modern" src="${assets.poster}" alt="雪后晨光中的长白山林" />
+      <img class="scene-bg echo-modern" src="${assets.modern}" alt="阳光下的当代白山黑水" />
       <div class="echo-historic"><img src="${assets.night}" alt="黑白雪夜山林" /></div>
       <div class="echo-copy">
         <p class="kicker">终章 · 山河回响</p>
@@ -197,8 +202,8 @@ app.innerHTML = `
         <p class="record" data-record="ending"></p>
         <section class="source-note">
           <h3>史实与创作说明</h3>
-          <p>东北抗联密营是山林斗争环境中的重要依托。虚构交通员用于承载交互，不对应单一真实人物；路线、封锁与树洞情节为艺术化合成。</p>
-          <p>正式参赛版的具体年份、地域、装备与馆藏编号，需由史料顾问依据纪念馆、档案馆、地方志及权威出版物完成终审。</p>
+          <p>本作品以 1939 年秋至 1940 年 2 月，东北抗联第一路军在长白山南麓通化、临江、濛江一带开展反“讨伐”斗争为真实历史背景，还原抗联将士在严寒林海中辗转突围、依托密营储存物资、传递情报的艰苦斗争史实。</p>
+          <p>作品中交通员人物、树洞藏档案、油灯辨识路线等情节为艺术虚构，综合抗联斗争事迹创作，并非单一真实事件。道具参考抗联常用装备，相关信息以东北烈士纪念馆官方展出道具为准。</p>
         </section>
         <blockquote>“白山黑水犹在。记忆被交到我们手中。”</blockquote>
         <div class="result-actions">
@@ -233,7 +238,7 @@ app.innerHTML = `
       <p class="sheet-label">记忆物件 · 旧药箱</p>
       <img src="${assets.medbox}" alt="旧式木制药箱" />
       <h2>雪下留下的空处</h2>
-      <p>严寒山林中的医疗补给难以维持。此物件用于呈现匮乏处境，不对应一件已确认馆藏；正式版须补充来源编号。</p>
+      <p>严寒山林中的医疗补给难以维持。此物件用于呈现抗联密营医疗物资匮乏的历史处境，为艺术化复原道具。</p>
     </aside>
 
     <div class="toast" role="status" aria-live="polite"></div>
@@ -257,6 +262,8 @@ let snowStops = [];
 let fireTween = null;
 let mapTimer = null;
 let lastFootprint = 0;
+let nightStartedAt = 0;
+let sceneTimers = [];
 
 const positions = {
   day: { start: [0.52, 0.86], covers: [[0.17, 0.70], [0.78, 0.63], [0.49, 0.82]] },
@@ -285,6 +292,8 @@ function clearSceneActivity() {
   snowStops.forEach((stop) => stop());
   snowStops = [];
   clearInterval(mapTimer);
+  sceneTimers.forEach((timer) => clearTimeout(timer));
+  sceneTimers = [];
 }
 
 function setChapter(sceneName) {
@@ -327,6 +336,7 @@ function updateStatus() {
     const fill = document.querySelector(`[data-status="${key}"]`);
     fill.style.transform = `scaleX(${clamp(state[key]) / 100})`;
   }
+  breathButton?.style.setProperty("--stamina-angle", `${clamp(state.stamina) * 3.6}deg`);
   const activeFrost = scenes[state.scene]?.querySelector(".frost");
   if (activeFrost) activeFrost.style.opacity = String(0.12 + (100 - clamp(state.warmth)) / 130);
 }
@@ -396,6 +406,8 @@ function resetRun() {
 function beginArchive() {
   audio.unlock();
   resetRun();
+  scratchedCells.clear();
+  scratchTaps = 0;
   transitionTo("archive", setupFrostCanvas);
 }
 
@@ -442,8 +454,16 @@ function revealArchive() {
   const canvas = document.querySelector("#frostCanvas");
   if (canvas.dataset.revealed === "true") return;
   canvas.dataset.revealed = "true";
-  document.querySelector("#holdEntry").hidden = false;
-  document.querySelector("#scratchHint").textContent = "照片已经显出 · 按住进入记忆";
+  const hint = document.querySelector("#scratchHint");
+  const button = document.querySelector("#holdEntry");
+  gsap.to(hint, {
+    autoAlpha: 0, y: 5, duration: duration(0.18),
+    onComplete: () => {
+      hint.hidden = true;
+      button.hidden = false;
+      gsap.fromTo(button, { autoAlpha: 0, y: 7 }, { autoAlpha: 1, y: 0, duration: duration(0.28) });
+    },
+  });
   gsap.to(canvas, { autoAlpha: 0.28, duration: duration(0.7) });
   gsap.fromTo(".photo-years span", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, stagger: 0.12, duration: duration(0.4) });
 }
@@ -452,6 +472,7 @@ function startEntryHold(event) {
   event.preventDefault();
   audio.unlock();
   const button = document.querySelector("#holdEntry");
+  button.querySelector(".hold-label").textContent = "保持按住";
   button.setPointerCapture?.(event.pointerId);
   gsap.killTweensOf(button);
   gsap.set(button, { "--hold-progress": 0 });
@@ -461,6 +482,7 @@ function startEntryHold(event) {
 function cancelEntryHold() {
   const button = document.querySelector("#holdEntry");
   gsap.killTweensOf(button);
+  button.querySelector(".hold-label").textContent = "按住照片，进入记忆";
   gsap.to(button, { "--hold-progress": 0, duration: duration(0.2) });
 }
 
@@ -489,11 +511,32 @@ function resetPlayer(sceneName) {
 function updateWaypoint(sceneName) {
   const scene = scenes[sceneName]; const step = state[`${sceneName}Step`];
   const point = positions[sceneName].covers[step]; const waypoint = scene.querySelector(".waypoint");
-  if (!point) { waypoint.hidden = true; return; }
+  if (!point) {
+    waypoint.hidden = true;
+    scene.querySelector(".movement-guide")?.setAttribute("hidden", "");
+    return;
+  }
   waypoint.hidden = false;
   waypoint.style.left = `calc(${point[0] * 100}% - 12px)`;
   waypoint.style.top = `calc(${point[1] * 100}% - 12px)`;
   scene.querySelectorAll(".cover").forEach((cover, index) => cover.classList.toggle("active", index === step));
+  if (sceneName === "day") updateMovementGuide(scene, point, step === 0);
+}
+
+function updateMovementGuide(scene, point, visible) {
+  const guide = scene.querySelector(".movement-guide");
+  if (!guide) return;
+  if (!visible) { guide.hidden = true; return; }
+  const player = scene.querySelector(".player");
+  const { width, height } = sceneMetrics();
+  const startX = player._x; const startY = player._y - 20;
+  const endX = point[0] * width; const endY = point[1] * height;
+  const distance = Math.hypot(endX - startX, endY - startY);
+  guide.hidden = false;
+  guide.style.left = `${startX}px`;
+  guide.style.top = `${startY}px`;
+  guide.style.width = `${distance}px`;
+  guide.style.transform = `rotate(${Math.atan2(endY - startY, endX - startX)}rad)`;
 }
 
 function addFootprint(scene, x, y) {
@@ -509,37 +552,59 @@ function addFootprint(scene, x, y) {
 function attachMovement(sceneName) {
   const scene = scenes[sceneName]; const player = scene.querySelector(".player");
   let pointerId = null;
-  const xTo = gsap.quickTo(player, "x", { duration: state.reduced ? 0 : 0.18, ease: "power2.out" });
-  const yTo = gsap.quickTo(player, "y", { duration: state.reduced ? 0 : 0.18, ease: "power2.out" });
+  let misses = 0;
+  const xTo = gsap.quickTo(player, "x", { duration: state.reduced ? 0 : 0.1, ease: "power2.out" });
+  const yTo = gsap.quickTo(player, "y", { duration: state.reduced ? 0 : 0.1, ease: "power2.out" });
+  const hitRadius = (width) => Math.max(72, Math.min(88, width * 0.22));
   const move = (event) => {
-    if (pointerId === null || state.scene !== sceneName) return;
+    if (pointerId === null || event.pointerId !== pointerId || state.scene !== sceneName) return;
     const rect = scene.getBoundingClientRect();
     const x = clampMovement(event.clientX - rect.left, 34, rect.width - 34);
-    const y = clampMovement(event.clientY - rect.top, rect.height * 0.48, rect.height * 0.9);
+    const y = clampMovement(event.clientY - rect.top - 32, rect.height * 0.48, rect.height * 0.9);
     player._x = x; player._y = y; player.classList.add("walking"); player.classList.remove("sheltered"); state.sheltered = false;
     xTo(x - player.offsetWidth / 2); yTo(y - player.offsetHeight); addFootprint(scene, x, y + 2);
+    scene.querySelector(".movement-guide")?.setAttribute("hidden", "");
+    const step = state[`${sceneName}Step`]; const point = positions[sceneName].covers[step];
+    if (point) {
+      const distance = Math.hypot(x - point[0] * rect.width, y - point[1] * rect.height);
+      const near = distance <= hitRadius(rect.width);
+      scene.classList.toggle("near-cover", near);
+      scene.querySelectorAll(".cover").forEach((cover, index) => cover.classList.toggle("ready", near && index === step));
+      if (near) scene.querySelector(".task-hint").textContent = "可以松手，进入掩护";
+    }
   };
   const end = (event) => {
-    if (pointerId === null) return;
+    if (pointerId === null || event.pointerId !== pointerId) return;
+    scene.releasePointerCapture?.(pointerId);
     pointerId = null; player.classList.remove("walking"); player.querySelector("img").src = assets.heroCrouch;
     const step = state[`${sceneName}Step`]; const point = positions[sceneName].covers[step];
     if (!point) return;
     const { width, height } = sceneMetrics(); const distanceToCover = Math.hypot(player._x - point[0] * width, player._y - point[1] * height);
-    if (distanceToCover < Math.max(52, width * 0.17)) {
+    scene.classList.remove("near-cover");
+    scene.querySelectorAll(".cover").forEach((cover) => cover.classList.remove("ready"));
+    if (distanceToCover < hitRadius(width)) {
+      misses = 0;
       player._x = point[0] * width; player._y = point[1] * height;
       gsap.to(player, { x: player._x - player.offsetWidth / 2, y: player._y - player.offsetHeight, duration: duration(0.2), ease: "power2.out" });
       completeCover(sceneName, step);
+    } else {
+      misses += 1;
+      const hint = scene.querySelector(".task-hint");
+      hint.textContent = misses >= 2 ? "目标范围已扩大，再靠近发光掩体" : "再靠近发光掩体一些";
+      scene.classList.toggle("movement-assisted", misses >= 2);
     }
   };
   scene.addEventListener("pointerdown", (event) => {
     if (state.scene !== sceneName || event.target.closest("button, aside")) return;
-    pointerId = event.pointerId; player.querySelector("img").src = assets.heroWalk; move(event);
+    pointerId = event.pointerId;
+    scene.setPointerCapture?.(pointerId);
+    player.querySelector("img").src = assets.heroWalk;
+    scene.querySelector(".task-hint").textContent = "拖向发光掩体，靠近后松手";
+    move(event);
   });
   window.addEventListener("pointermove", move);
   window.addEventListener("pointerup", end);
   window.addEventListener("pointercancel", end);
-  window.addEventListener("mousemove", move);
-  window.addEventListener("mouseup", end);
 }
 
 function clampMovement(value, minimum, maximum) {
@@ -551,11 +616,15 @@ function completeCover(sceneName, index) {
   const scene = scenes[sceneName]; const player = scene.querySelector(".player");
   state.sheltered = true; state.exposure = Math.max(0, state.exposure - 16); state[`${sceneName}Step`] += 1;
   player.classList.add("sheltered"); navigator.vibrate?.(24); audio.cue(170, 0.09);
+  scene.classList.remove("movement-assisted", "near-cover");
   updateStatus(); updateWaypoint(sceneName); showToast(coverLines[index], 1050);
   if (sceneName === "day") {
+    const hint = document.querySelector("#dayHint");
+    hint.textContent = state.dayStep < 3 ? "继续沿发光掩体前进" : "已抵达密营入口";
     if (state.dayStep === 2 && !state.memories.includes("medicine")) document.querySelector("#medicineMemory").hidden = false;
     if (state.dayStep === 3) window.setTimeout(() => showSheet(document.querySelector("#routeSheet")), 650);
   } else {
+    document.querySelector("#nightHint").textContent = state.nightStep < 3 ? "留在掩体后，等待灯光转开" : "已经越过封锁线";
     document.querySelector("#nightSection").textContent = ["冻河沟", "石崖封锁", "封锁线之后"][index];
     if (index === 1 && state.food === "share") {
       state.exposure = Math.max(0, state.exposure - 28); showToast("老周在远处制造了声响。巡逻灯转开了。", 1600);
@@ -591,7 +660,13 @@ const objectNotes = {
 function enterCamp() {
   transitionTo("camp", () => {
     startSnow(scenes.camp, 32);
-    gsap.fromTo(scenes.camp.querySelectorAll(".camp-person, .camp-object"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, stagger: 0.07, duration: duration(0.45) });
+    const people = scenes.camp.querySelectorAll(".camp-person");
+    const objects = scenes.camp.querySelectorAll(".camp-object");
+    objects.forEach((object) => object.classList.remove("suggested"));
+    scenes.camp.querySelector('[data-object="lamp"]').classList.add("suggested");
+    activeTimeline = gsap.timeline({ defaults: { ease: "power2.out" } })
+      .fromTo(people, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: 0.12, duration: duration(0.55) })
+      .fromTo(objects, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, stagger: 0.07, duration: duration(0.4) }, "-=0.18");
   });
 }
 
@@ -599,9 +674,13 @@ function inspectObject(button) {
   const key = button.dataset.object;
   if (!state.inspected.includes(key)) state.inspected.push(key);
   button.classList.add("inspected");
+  button.classList.remove("suggested");
   const note = document.querySelector("#objectNote");
-  note.querySelector("span").textContent = `${state.inspected.length} / 5`;
+  note.querySelector(".object-count").textContent = `${state.inspected.length} / 5`;
   note.querySelector("p").textContent = objectNotes[key];
+  note.querySelectorAll(".object-progress i").forEach((dot, index) => dot.classList.toggle("done", index < state.inspected.length));
+  const nextObject = [...scenes.camp.querySelectorAll(".camp-object")].find((object) => !state.inspected.includes(object.dataset.object));
+  nextObject?.classList.add("suggested");
   audio.cue(220 + state.inspected.length * 20, 0.08);
   if (state.inspected.length === 5) window.setTimeout(() => showCampDecision("food"), 550);
   saveProgress();
@@ -672,11 +751,16 @@ function chooseSequence(correct) {
 function enterNight() {
   transitionTo("night", () => {
     state.sheltered = true;
+    nightStartedAt = performance.now();
+    document.querySelector("#nightHint").textContent = "先观察灯光往返";
     if (state.coat === "share") {
       state.assisted = true; document.querySelector("#assistToggle").checked = true;
       showToast("小满打出手势：灯光将从右侧折返。", 1700);
     }
     resetPlayer("night"); updateWaypoint("night"); updateStatus(); startSnow(scenes.night, 62); startNightLoop();
+    sceneTimers.push(window.setTimeout(() => {
+      if (state.scene === "night") document.querySelector("#nightHint").textContent = "灯光转开时，拖动到发光掩体";
+    }, 2800));
     activeTimeline = gsap.timeline({ defaults: { duration: duration(0.5), ease: "power2.out" } })
       .fromTo(scenes.night.querySelectorAll(".enemy"), { autoAlpha: 0, x: 12 }, { autoAlpha: 0.78, x: 0, stagger: 0.12 })
       .fromTo(scenes.night.querySelectorAll(".cover"), { autoAlpha: 0 }, { autoAlpha: 1, stagger: 0.08 }, "<");
@@ -702,19 +786,37 @@ function drawSpotlight(now, delta) {
   }
   const context = canvas.getContext("2d"); context.setTransform(dpr, 0, 0, dpr, 0, 0); context.clearRect(0, 0, rect.width, rect.height);
   const origin = { x: rect.width * 0.84, y: rect.height * 0.31 };
-  const speed = state.searches >= 2 ? 0.0003 : state.routeMemory === false ? 0.00048 : 0.0004;
-  const angle = 1.9 + Math.sin(now * speed) * 0.65; const spread = state.assisted ? 0.34 : 0.3; const length = rect.height * 0.82;
-  const gradient = context.createRadialGradient(origin.x, origin.y, 5, origin.x, origin.y, length);
-  gradient.addColorStop(0, "rgba(242,239,207,.52)"); gradient.addColorStop(0.55, "rgba(228,234,218,.25)"); gradient.addColorStop(1, "rgba(210,222,215,0)");
-  context.beginPath(); context.moveTo(origin.x, origin.y); context.arc(origin.x, origin.y, length, angle - spread, angle + spread); context.closePath(); context.fillStyle = gradient; context.fill();
-  if (state.assisted || state.searches >= 2) { context.strokeStyle = "rgba(235,240,224,.62)"; context.lineWidth = 1; context.stroke(); }
+  const observing = now - nightStartedAt < 5200;
+  const baseSpeed = state.searches >= 2 ? 0.0003 : state.routeMemory === false ? 0.00048 : 0.0004;
+  const angle = 1.9 + Math.sin(now * baseSpeed * (observing ? 0.8 : 1)) * 0.65;
+  const spread = state.assisted ? 0.36 : 0.32; const length = rect.height * 0.82;
+  const outerGradient = context.createRadialGradient(origin.x, origin.y, 8, origin.x, origin.y, length);
+  outerGradient.addColorStop(0, "rgba(249,246,218,.74)"); outerGradient.addColorStop(0.5, "rgba(231,238,224,.34)"); outerGradient.addColorStop(1, "rgba(205,223,218,0)");
+  context.beginPath(); context.moveTo(origin.x, origin.y); context.arc(origin.x, origin.y, length, angle - spread, angle + spread); context.closePath();
+  context.fillStyle = outerGradient; context.fill();
+  context.strokeStyle = state.assisted || state.searches >= 2 ? "rgba(246,249,231,.86)" : "rgba(232,241,230,.48)";
+  context.lineWidth = state.assisted || state.searches >= 2 ? 1.6 : 1; context.stroke();
+  const coreSpread = spread * 0.46;
+  const coreGradient = context.createRadialGradient(origin.x, origin.y, 4, origin.x, origin.y, length * 0.88);
+  coreGradient.addColorStop(0, "rgba(255,247,204,.82)"); coreGradient.addColorStop(0.58, "rgba(241,244,220,.34)"); coreGradient.addColorStop(1, "rgba(230,240,233,0)");
+  context.beginPath(); context.moveTo(origin.x, origin.y); context.arc(origin.x, origin.y, length * 0.88, angle - coreSpread, angle + coreSpread); context.closePath();
+  context.fillStyle = coreGradient; context.fill();
+  const poolX = origin.x + Math.cos(angle) * length * 0.72; const poolY = origin.y + Math.sin(angle) * length * 0.72;
+  context.save(); context.translate(poolX, poolY); context.rotate(angle); context.scale(1, 0.34);
+  const pool = context.createRadialGradient(0, 0, 2, 0, 0, rect.width * 0.22);
+  pool.addColorStop(0, "rgba(240,245,226,.28)"); pool.addColorStop(1, "rgba(224,237,229,0)");
+  context.fillStyle = pool; context.beginPath(); context.arc(0, 0, rect.width * 0.22, 0, Math.PI * 2); context.fill(); context.restore();
+  context.fillStyle = "rgba(255,247,205,.92)"; context.beginPath(); context.arc(origin.x, origin.y, 3.5, 0, Math.PI * 2); context.fill();
   const player = scene.querySelector(".player");
   if (!Number.isFinite(player._x) || state.sheltered) {
-    state.exposure = Math.max(0, state.exposure - delta * 10); state.centerLightTime = 0; updateStatus(); return;
+    state.exposure = Math.max(0, state.exposure - delta * 10); state.centerLightTime = 0;
+    scene.classList.remove("light-near"); updateStatus(); return;
   }
   const dx = player._x - origin.x; const dy = player._y - origin.y; const distanceFromLight = Math.hypot(dx, dy);
   const playerAngle = Math.atan2(dy, dx); const difference = Math.abs(Math.atan2(Math.sin(playerAngle - angle), Math.cos(playerAngle - angle)));
   const inEdge = distanceFromLight < length && difference < spread; const inCenter = distanceFromLight < length && difference < spread * 0.46;
+  scene.classList.toggle("light-near", inEdge || (distanceFromLight < length && difference < spread * 1.55));
+  if (inEdge && !state.breathing) document.querySelector("#nightHint").textContent = "灯光扫近，按住屏息";
   const breathFactor = state.breathing ? 0.28 : 1;
   state.exposure = inEdge ? clamp(state.exposure + delta * 18 * breathFactor) : clamp(state.exposure - delta * 7);
   state.centerLightTime = inCenter ? state.centerLightTime + delta * breathFactor : 0;
@@ -738,7 +840,8 @@ function triggerSearch() {
     .set(scenes.night, { x: 0 });
   player.classList.add("sheltered");
   if (state.searches >= 2) state.assisted = true;
-  showToast(state.searches >= 2 ? "风雪收紧了视野。巡逻节奏已经放缓。" : "队长按低你的肩。退回上一处掩体。", 1650);
+  document.querySelector("#nightHint").textContent = "等待灯光转开，再向发光掩体移动";
+  showToast(state.searches >= 2 ? "灯光锁定了你。已退回掩体，巡逻节奏放缓。" : "被灯光锁定。队长把你按回上一处掩体。", 1650);
   saveProgress();
 }
 
@@ -746,13 +849,21 @@ function startBreathing(event) {
   event.preventDefault();
   if (state.scene !== "night" || state.stamina <= 0) return;
   state.breathing = true; breathButton.classList.add("active"); breathButton.setPointerCapture?.(event.pointerId);
+  document.querySelector("#nightHint").textContent = "保持屏息，等灯光移开";
 }
-function stopBreathing() { state.breathing = false; breathButton.classList.remove("active"); }
+function stopBreathing() {
+  state.breathing = false; breathButton.classList.remove("active");
+  if (state.scene === "night") document.querySelector("#nightHint").textContent = "灯光转开时，继续向掩体移动";
+}
 
 function enterFire() {
   transitionTo("fire", () => {
     startSnow(scenes.fire, 46);
-    gsap.fromTo([".fire-captain", ".fire-archive", ".lamp-guard"], { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: 0.12, duration: duration(0.5) });
+    document.querySelector("#fireHint").textContent = "按住火苗，替它挡风";
+    activeTimeline = gsap.timeline({ defaults: { ease: "power2.out" } })
+      .fromTo([".fire-captain", ".fire-archive"], { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: 0.14, duration: duration(0.55) })
+      .fromTo(".lamp-guard", { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: duration(0.45) }, "-=0.15")
+      .fromTo("#fireHint", { autoAlpha: 0, y: 5 }, { autoAlpha: 1, y: 0, duration: duration(0.3) });
   });
 }
 
@@ -760,24 +871,35 @@ function startProtectFlame(event) {
   event.preventDefault();
   if (state.scene !== "fire" || !document.querySelector("#archiveChoice").hidden) return;
   const guard = document.querySelector("#lampGuard"); guard.classList.add("guarding"); guard.setPointerCapture?.(event.pointerId);
+  scenes.fire.classList.add("fire-progress");
+  document.querySelector("#fireHint").textContent = "保持按住，火苗正在稳定";
   const progress = Number(guard.dataset.progress || 0); const holder = { value: progress };
   fireTween?.kill();
   fireTween = gsap.to(holder, {
     value: 1, duration: duration((1 - progress) * 6), ease: "none",
-    onUpdate: () => { guard.dataset.progress = String(holder.value); guard.style.setProperty("--guard", holder.value); },
+    onUpdate: () => renderGuardProgress(guard, holder.value),
     onComplete: completeFire,
   });
 }
 
+function renderGuardProgress(guard, value) {
+  guard.dataset.progress = String(value);
+  guard.style.setProperty("--guard", value);
+  guard.style.setProperty("--guard-angle", `${value * 360}deg`);
+  guard.style.setProperty("--guard-scale", 0.82 + value * 0.22);
+}
+
 function stopProtectFlame() {
-  const guard = document.querySelector("#lampGuard"); guard.classList.remove("guarding"); fireTween?.kill();
+  const guard = document.querySelector("#lampGuard"); guard.classList.remove("guarding"); scenes.fire.classList.remove("fire-progress"); fireTween?.kill();
   if (guard.disabled) return;
+  document.querySelector("#fireHint").textContent = "重新按住火苗，进度会保留";
   const holder = { value: Number(guard.dataset.progress || 0) };
-  fireTween = gsap.to(holder, { value: Math.max(0, holder.value - 0.16), duration: duration(0.5), onUpdate: () => { guard.dataset.progress = String(holder.value); guard.style.setProperty("--guard", holder.value); } });
+  fireTween = gsap.to(holder, { value: Math.max(0, holder.value - 0.12), duration: duration(0.5), onUpdate: () => renderGuardProgress(guard, holder.value) });
 }
 
 function completeFire() {
   const guard = document.querySelector("#lampGuard"); guard.classList.remove("guarding"); guard.disabled = true;
+  scenes.fire.classList.add("fire-complete");
   document.querySelector("#fireHint").textContent = "火光照出了档案上的最后一段路";
   audio.cue(360, 0.22); navigator.vibrate?.(30); showSheet(document.querySelector("#archiveChoice"));
 }

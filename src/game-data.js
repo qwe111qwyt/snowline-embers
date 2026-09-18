@@ -2,6 +2,7 @@ export const assets = {
   day: "./assets/day.webp",
   night: "./assets/night.webp",
   poster: "./assets/poster.webp",
+  modern: "./assets/modern.webp",
   heroWalk: "./assets/hero-walk.webp",
   heroCrouch: "./assets/hero-crouch.webp",
   heroReference: "./assets/hero-reference.webp",

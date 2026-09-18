@@ -8,7 +8,8 @@ const outputDir = path.resolve("public", "assets");
 const jobs = [
   ["bg_01_day_forest.png", "day.webp", 940, 80],
   ["bg_03_night_pine.png", "night.webp", 940, 80],
-  ["poster_key_visual.png", "poster.webp", 940, 82],
+  ["poster_key_visual .png", "poster.webp", 940, 82],
+  ["0.png", "modern.webp", 940, 84],
   ["hero_walk_01.png", "hero-walk.webp", 380, 88],
   ["hero_crouch.png", "hero-crouch.webp", 420, 88],
   ["hero_turnaround_0.png", "hero-reference.webp", 500, 86],
@@ -39,7 +40,19 @@ await mkdir(outputDir, { recursive: true });
 for (const [input, output, width, quality] of jobs) {
   const source = path.join(sourceDir, input);
   const target = path.join(outputDir, output);
-  const sourceInfo = await stat(source);
+  let sourceInfo;
+  try {
+    sourceInfo = await stat(source);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      try {
+        await stat(target);
+        console.warn(`Skipping missing source ${input}; keeping existing ${output}.`);
+        continue;
+      } catch {}
+    }
+    throw error;
+  }
   let shouldWrite = true;
   try {
     const targetInfo = await stat(target);
